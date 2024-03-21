@@ -1,0 +1,11 @@
+transformers~=4.37.0.dev0
+datasets
+flash_attn
+# torch==2.2.1 install with pip3 install torch --index-url https://download.pytorch.org/whl/cu121
+wandb
+accelerate
+matplotlib
+seaborn
+termcolor
+fsspec==2023.5.0
+reportlab
