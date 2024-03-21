@@ -44,7 +44,7 @@ model.rm_initialized = True
 
 model.original_mode = False
 
-input = "Solve the equation 2x + 3w² = 5."
+input = "Solve the equation 2x + 3x² = 5."
 
 input_ids = tokenizer.encode(input, return_tensors="pt").to(model.device)
 
