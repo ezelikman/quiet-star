@@ -42,12 +42,12 @@ import torch.utils.checkpoint
 from torch import nn
 from torch.nn import BCEWithLogitsLoss, CrossEntropyLoss, MSELoss
 
-from ...activations import ACT2FN
-from ...cache_utils import Cache, DynamicCache
-from ...modeling_attn_mask_utils import _prepare_4d_causal_attention_mask, _prepare_4d_causal_attention_mask_for_sdpa
-from ...modeling_outputs import BaseModelOutputWithPast, CausalLMOutputWithPast, SequenceClassifierOutputWithPast
-from ...modeling_utils import PreTrainedModel
-from ...utils import (
+from transformers.activations import ACT2FN
+from transformers.cache_utils import Cache, DynamicCache
+from transformers.modeling_attn_mask_utils import _prepare_4d_causal_attention_mask, _prepare_4d_causal_attention_mask_for_sdpa
+from transformers.modeling_outputs import BaseModelOutputWithPast, CausalLMOutputWithPast, SequenceClassifierOutputWithPast
+from transformers.modeling_utils import PreTrainedModel
+from transformers.utils import (
     add_start_docstrings,
     add_start_docstrings_to_model_forward,
     is_flash_attn_2_available,
@@ -55,7 +55,7 @@ from ...utils import (
     logging,
     replace_return_docstrings,
 )
-from .configuration_mistral import MistralConfig
+from configuration_mistral import MistralConfig
 
 
 if is_flash_attn_2_available():
@@ -1801,9 +1801,9 @@ class MistralForCausalLM(MistralPreTrainedModel):
                     
                 # don't allow it to predict the thinking token
                 if self.tokenizer_has_start_thought_token:                    
-                    rm_logits[..., self.start_token_id] = -1e10
+                    rm_logits[..., self.start_token_id] = torch.finfo(rm_logits.dtype).min
                 if self.tokenizer_has_end_thought_token:
-                    rm_logits[..., self.end_token_id] = -1e10
+                    rm_logits[..., self.end_token_id] = torch.finfo(rm_logits.dtype).min
                 probabilities = rm_logits
                 if probabilities_2d is not None:
                     prev_probabilities_2d = probabilities_2d.clone()

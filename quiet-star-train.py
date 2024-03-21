@@ -9,7 +9,7 @@ from transformers import TrainingArguments, Trainer
 import os
 import time
 import wandb
-from huggingface_custom_callback import EarlyStoppingCallback
+from transformers import EarlyStoppingCallback
 from eval_helpers import preprocess_eval_function_gsm, preprocess_eval_function_csqa, preprocess_function, compute_metrics, truncate_or_pad
 random_seed = 42
 torch.manual_seed(random_seed)
